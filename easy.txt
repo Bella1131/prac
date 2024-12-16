@@ -1,0 +1,246 @@
+GENERIC CLASS
+ package generic;
+ class Test<T>{
+ 	T obj;
+ 	Test(T obj){this.obj=obj;}
+ 	public T getObject() {return this.obj;}
+ }
+ public class test1 {
+ 	public static void main(String[] args) {
+ 		// TODO Auto-generated method stub
+ 		Test<Integer> iobj=new Test<Integer>(04);
+ 		System.out.println("the value of integer:"+iobj.getObject());
+ 		Test <String> sobj=new Test<String>("Manoranjan");
+ 		System.out.println("the value of string:"+sobj.getObject())
+ }
+ }
+GENERIC METHOD
+ package generic;
+ public class generic_method {
+ 	void display()
+ {
+ 		System.out.println("Generic method example:");
+ 	}
+ 	<T> void gdisplay(T e)
+ 	{
+ 		System.out.println(e.getClass().getName()+"="+e);
+ 	}
+ 	public static void main(String[] args)
+ 	{
+ 		generic_method g1 = new generic_method();
+ 		g1.display();
+ 		g1.gdisplay(1);
+ g1.gdisplay("NAME");
+ g1.gdisplay(20.09);
+ }
+ }
+WILDCARDS
+ package prac1;
+ import java.util.Arrays;
+ import java.util.List;
+ public class wildcard {
+ 	private static double sum(List<? extends Number>list) {
+ 		double sum=0.0;
+ 		for (Number i : list) {
+ sum = sum+i.doubleValue();
+ }
+ 		return sum;
+ }
+ private static void show(List<? super Integer> list) {
+ list.forEach((x)->{
+ 			System.out.println(x + " ");
+ });
+ }
+ 	public static void main(String[] args) {
+ 		System.out.println("Upper bounded: ");
+ 		List<Integer> list1 = Arrays.asList(4,2,7,5,1,9);
+ 		System.out.println("List 1 sum"+ sum(list1));
+ 		List<Double> list2 = Arrays.asList(4.7,2.4,7.3,5.4,1.5,9.2);
+ 		System.out.println("List 2 sum" + sum(list2));
+ 		System.out.println("\nLower bounded: ");
+ 		List<Integer> list3 = Arrays.asList(4,2,7,5,1,9);
+ 		System.out.println("Only classes with integer superClass will be Accepted");
+ 		show(list3);
+ }
+ }
+LIST
+ package p2;
+ import java.util.ArrayList;
+ public class Array1 {
+ 	public static void main(String[] args) {
+ 		ArrayList<String>list=new ArrayList<String>();
+ 		list.add("adbms");
+ list.add("python");
+ list.add("java");
+ 		list.add("maths");
+ 		System.out.println(list);
+ 		System.out.println("Traversing list through for each loop:");
+ 		for(String subject:list)
+ 			System.out.println(subject);
+ 	}
+ }
+LIST ITERATOR
+ package p2;
+ import java.util.ArrayList;
+ import java.util.List;
+ import java.util.ListIterator;
+ public class Test {
+ 	public static void main(String[] args) {
+ List<String>Products=new ArrayList<>();
+ 		Products.add("p1");
+ 		Products.add("p2");
+ 		Products.add("p3");
+ 		Products.add("p4");
+ 		System.out.println("printing products in forward direction using listiterator");
+ 		ListIterator<String>fi=Products.listIterator();
+ 		while(fi.hasNext()) {
+ 			System.out.println(fi.next());
+ 		}
+ 		System.out.println("printing products in reverse direction using listiterator");
+ 		ListIterator<String> bi=Products.listIterator(Products.size());
+ 		while(bi.hasPrevious()) {
+ 			System.out.println(bi.previous());
+ }
+ }
+ }
+SETS
+ package p2;
+ import java.util.LinkedList;
+ import java.util.List;
+ import java.util.ListIterator;
+ public class set31 {
+ 	public static void main(String[] args) {
+ 		List<String>names=new LinkedList<>();
+		names.add("BOB");
+ 		names.add("SANDY");
+ 		names.add("ADOLF");
+ 		names.add("DAISY");
+ 		ListIterator<String> LT=names.listIterator();
+ 		System.out.println("forward direction ListIterator:");
+ 		while(LT.hasNext()) {
+ 			System.out.println(LT.next());
+ 		}
+ 		System.out.println("backward direction ListIterator");
+ 		while(LT.hasPrevious()) {
+ 			System.out.println(LT.previous());
+ 		}
+ }	}
+SET ADDING REMOVING
+ package p2;
+ import java.util.HashSet;
+ import java.util.Set;
+ 	public class set32 {
+ 		public static void main(String[] args) {
+ 			Set<String>set1= new HashSet<>();
+ 			set1.add("BOBi");
+ 			set1.add("SANDY");
+ 			System.out.println("set1"+set1);
+ 			Set<String>set2=new HashSet<>();
+ 			set2.add("ADOLF");
+ set2.add("DAISY");
+ 			set1.addAll(set2);
+ 			System.out.println("set1 adding item from set2"+set1);
+ 			set1.remove("Bhakti");
+ 			System.out.println("set1 after removing an element"+set1);
+ boolean isPresent=set1.contains("Sharon");
+ 			System.out.println("is Sharon present in set1:"+isPresent);
+ }
+MAP
+ package prac4;
+ import java.util.HashMap;
+ import java.util.Map;
+ public class test {
+ 	public static void main(String[] args) {
+ 		Map<Integer,String>map1=new HashMap<>();
+ 		map1.put(1,"FNAME1");
+ 		map1.put(2,"MNAME2");
+ 		map1.put(3,"LNAME3");
+ 		System.out.println("map1"+map1);
+ 		Map<Integer,String>map2=new HashMap<>();
+ 		map2.put(5,"FNAME2");
+ 		map2.put(6,"MNAME2");
+ 		map2.put(7,"LNAME3");
+ 		map1.putAll(map2);
+ 		System.out.println("map1 adding item from map2: "+map1)
+ 		map1.remove(5);
+ 		System.out.println("map1 after removing: "+map1);
+ 		boolean isPresent=map1.containsKey(1);
+ 		System.out.println("is Bhakti present in map1:"+isPresent);
+ 		String value = map1.get(2);
+ 		System.out.println("Value for key 1 is :");
+ 		System.out.println("Printing all key and values: ");
+ 		for(Map.Entry<Integer,String>entry:map1.entrySet()) {
+ 		System.out.println("key:"+entry.getKey()+"Values:"+entry.getValue());
+ }
+ }
+ }
+ LAMBDA SINGLE PARAMETER
+package prac5;
+ import java.util.Arrays;
+ import java.util.List;
+ public class prac5_2 {
+ 	public static void main(String[] args) {
+ 	List<String>names=Arrays.asList("bob","mname","lname");
+ 	names.forEach(name->System.out.println("Hello "+name+" !"));
+ 	}
+ }
+LAMBDA MULTIPLE PARAMETERS
+package prac5;
+ interface A{
+ 	int add(int i,int j);
+ }
+ public class prac5_3 {
+ 	public static void main(String[] args) {
+ 		Anum=(i,j)->i+j;
+ 		int result = num.add(7,8);
+ 		System.out.println("Addition of 7 and 8 is: "+result);
+ }
+ }
+LAMBDA TEMPERATURE
+ package prac5;
+ interface Converter{
+ 	double convert(double input);
+ }
+ public class prac5_4 {
+ 	public static void main(String[] args) {
+ 		Converter a=f->(f-32)*5/9;
+ 		double celsius = a.convert(122);
+ 		System.out.println("100 degree fahrenheit is "+celsius"degree celsius");
+ 		Converter b=km->km/1.609344;
+ 		double miles=b.convert(90);
+ 		System.out.println("90 kilometer: "+miles+" miles");
+ 	}
+ }
+LAMBDA CALCULATOR
+package prac5;
+ interface Calculator{
+ 	int calculate(int i, int j);
+ }
+ public class prac5_5 {
+ 	public static void main(String[] args) {
+ 		Calculator add = (i, j)->i+j;
+ 		Calculator subtract = (i,j)->{
+ 			return i-j;
+ 		};
+ 		int sum=add.calculate(10,8);
+ 		int sub=subtract.calculate(78,45);
+ 		System.out.println("Addition of 10 and 8 is: "+sum);
+ 		System.out.println("Subtraction of 78 and 45 is: "+sub);
+ 		}
+ }
+LAMBDA 2 STRING CONCATENATE
+package prac5;
+ interface Concatenator{
+ 	String concatenate(String s1,String s2);
+ }
+ public class prac5_6 {
+ 	public static void main(String[] args) {
+ 		String str="BOB ";
+ 		String str1="LNAME";
+ 		Concatenator cn=(s1,s2)->s1+s2;
+ 		String result = cn.concatenate(str, str1);
+ 		System.out.println("The concatenated string is: "+result);
+ }
+ }
+
+
