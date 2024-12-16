@@ -1,0 +1,38 @@
+Prac8
+Beforadvice
+Application.java
+ package com.example;
+ import com.example.service.YourService;
+ import org.springframework.boot.SpringApplication;
+ import org.springframework.boot.autoconfigure.SpringBootApplication;
+ import org.springframework.context.ConfigurableApplicationContext;
+ @SpringBootApplication
+ public class Application {
+ 	public static void main(String[] args) {
+ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
+ 		YourService yourService = context.getBean(YourService.class);
+ 		yourService.yourmethod();
+ 	}
+ }
+ YourService.java
+ package com.example.service;
+ import org.springframework.stereotype.Service;
+ @Service
+ public class YourService {
+ 	public void yourmethod() {
+ 		System.out.println("Your method executed.");
+ 	}
+ }
+ MyAspect.java 
+package com.example.aspect; 
+import org.aspectj.lang.annotation.Aspect; 
+import org.aspectj.lang.annotation.Before; 
+import org.springframework.stereotype.Component; 
+@Aspect
+@Component 
+public class MyAspect { 
+@Before("execution(* com.example.service.YourService.yourmethod())") 
+public void beforeAdvice() { 
+System.out.println("Before advice executed."); 
+} 
+}

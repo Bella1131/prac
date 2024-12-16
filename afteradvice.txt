@@ -1,0 +1,35 @@
+afteradvice
+ Aspect1.java:
+ package com.example.demo;
+ import org.aspectj.lang.annotation.Aspect;
+ import org.aspectj.lang.annotation.After;
+ import org.springframework.stereotype.Component;
+ @Aspect
+ @Component
+ public class Aspect1 {
+ 	@After("execution(* com.example.demo.Service1.yourmethod())")
+ 	public void afterAdvice() {
+ 		System.out.println("After advice executed.");
+ }
+ }
+ Service1.java:
+ package com.example.demo;
+ import org.springframework.stereotype.Service;
+ @Service
+ public class Service1 {
+ 	public void yourmethod() {
+ System.out.println("Your method executed.");
+ 	}
+ }
+ Prac81Application.java:
+ package com.example.demo;
+ import org.springframework.boot.SpringApplication;
+ import org.springframework.boot.autoconfigure.SpringBootApplication;
+ import org.springframework.context.ConfigurableApplicationContext;
+ @SpringBootApplication
+ public class Prac81Application {
+ public static void main(String[] args) {
+ 		ConfigurableApplicationContext context = SpringApplication.run(Prac81Application.class, args); 
+Service1 yourservice = context.getBean(Service1.class); yourservice.yourmethod();
+ } 
+}

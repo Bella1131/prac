@@ -1,0 +1,40 @@
+Prac10- spring boot restful webservices
+Controller.java
+package com.example.demo;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+@RestController
+public class Controller {
+	@GetMapping("hello-world")
+	public String HelloWorld() {
+		return "Hey Mr";
+	}
+	@GetMapping("hello-world-bean")
+	public HelloWorldBean helloWorldBean() {
+		return new HelloWorldBean("Hey");
+	}
+}
+HelloWorldBean.java
+package com.example.demo;
+public class HelloWorldBean {
+	private String Message;
+	public HelloWorldBean(String Message) {
+		this.Message = Message;
+	}
+	public String getMessage() {
+		return Message;
+	}
+	public void getMessage(String Message) {
+		this.Message = Message;
+	}	
+}
+Demo1Application.java
+package com.example.demo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+@SpringBootApplication
+public class Demo1Application {
+	public static void main(String[] args) {
+		SpringApplication.run(Demo1Application.class, args);
+	}
+}

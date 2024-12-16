@@ -1,0 +1,41 @@
+Returningadvice
+ Prac81Application.java
+ package com.example.demo;
+ import com.example.demo.Service1;
+ import org.springframework.boot.SpringApplication;
+ import org.springframework.boot.autoconfigure.SpringBootApplication;
+ import org.springframework.context.ConfigurableApplicationContext;
+ @SpringBootApplication
+ 	public class Prac81Application {
+ 		public static void main(String[] args) {
+ 			ConfigurableApplicationContext context =SpringApplication.run(Prac81Application.class, args);
+ 			Service1 yourService = context.getBean(Service1.class);
+ 			yourService.service2();
+ }
+ }
+ Service1.java
+ package com.example.demo;
+ import org.springframework.stereotype.Service;
+ @Service
+ public class Service1 {
+ public void service2() {
+ 		System.out.println("my method");
+ 	}
+ }
+ Aspect.java
+ package com.example.demo;
+ import org.aspectj.lang.annotation.AfterReturning;
+ import org.aspectj.lang.annotation.Aspect;
+ import org.springframework.stereotype.Component;
+ @Aspect
+ @Component
+ public class Aspect1 {
+ 	@AfterReturning(
+ pointcut = "execution(* com.example.demo.Service1.service2())",
+ returning = "result")
+ public void afterReturningAdvice() {
+ 			System.out.println("After Returning Advice: Aspect executed after service2()
+ returns");
+ }
+ }
+

@@ -1,0 +1,399 @@
+TELEPHONE DIRECTORY
+SQL statements:
+CREATE TABLE telephone_directory (
+id INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(100),
+phone_number VARCHAR(15)
+);
+
+telephone.jsp:
+
+<%@ page import="java.sql.*" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Telephone Directory</title>
+</head>
+<body>
+    <h2>Telephone Directory</h2>
+
+    <!-- Form to add a new contact -->
+    <h3>Add New Contact</h3>
+    <form action="telephone.jsp" method="post">
+        Name: <input type="text" name="name" required><br><br>
+        Phone Number: <input type="text" name="phone_number" required><br><br>
+        <input type="submit" value="Add Contact">
+    </form>
+
+    <%
+        // Retrieve form data if the form is submitted
+        String name = request.getParameter("name");
+        String phoneNumber = request.getParameter("phone_number");
+
+        // Message to display after adding the contact
+        String message = "";
+
+        if (name != null && phoneNumber != null) {
+            Connection conn = null;
+            PreparedStatement stmt = null;
+            try {
+                // Connect to MySQL database
+                String url = "jdbc:mysql://localhost:3306/user_db"; // Your database URL
+                String dbUser = "root"; // MySQL username
+                String dbPassword = "root"; // MySQL password
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                conn = DriverManager.getConnection(url, dbUser, dbPassword);
+
+                // Prepare SQL query to insert contact
+                String query = "INSERT INTO telephone_directory (name, phone_number) VALUES (?, ?)";
+                stmt = conn.prepareStatement(query);
+                stmt.setString(1, name);
+                stmt.setString(2, phoneNumber);
+
+                // Execute query
+                int result = stmt.executeUpdate();
+                if (result > 0) {
+                    message = "Contact added successfully!";
+                } else {
+                    message = "Failed to add contact!";
+                }
+
+            } catch (Exception e) {
+                message = "Error: " + e.getMessage();
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (stmt != null) stmt.close();
+                    if (conn != null) conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            out.println("<p>" + message + "</p>");
+        }
+
+        // Fetch and display the list of contacts
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            String url = "jdbc:mysql://localhost:3306/user_db";
+            String dbUser = "root";
+            String dbPassword = "root";
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(url, dbUser, dbPassword);
+
+            // Prepare SQL query to fetch all contacts
+            String query = "SELECT * FROM telephone_directory";
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+
+            // Display contacts in a table
+            out.println("<h3>Contacts List</h3>");
+            out.println("<table border='1' cellpadding='5' cellspacing='0'>");
+            out.println("<tr><th>ID</th><th>Name</th><th>Phone Number</th></tr>");
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String contactName = rs.getString("name");
+                String contactPhoneNumber = rs.getString("phone_number");
+
+                out.println("<tr>");
+                out.println("<td>" + id + "</td>");
+                out.println("<td>" + contactName + "</td>");
+                out.println("<td>" + contactPhoneNumber + "</td>");
+                out.println("</tr>");
+            }
+
+            out.println("</table>");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    %>
+</body>
+</html>
+Telephone directory with edit and delete function:
+<%@ page import="java.sql.*" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Telephone Directory</title>
+</head>
+<body>
+    <h2>Telephone Directory</h2>
+
+
+    <!-- Form to add a new contact -->
+    <h3>Add New Contact</h3>
+    <form action="telephone.jsp" method="post">
+        Name: <input type="text" name="name" required><br><br>
+        Phone Number: <input type="text" name="phone_number" required><br><br>
+        <input type="submit" value="Add Contact">
+    </form>
+
+
+    <%
+        // Retrieve form data if the form is submitted
+        String name = request.getParameter("name");
+        String phoneNumber = request.getParameter("phone_number");
+
+
+        // Message to display after adding the contact
+        String message = "";
+
+
+        if (name != null && phoneNumber != null) {
+            Connection conn = null;
+            PreparedStatement stmt = null;
+            try {
+                // Connect to MySQL database
+                String url = "jdbc:mysql://localhost:3306/user_db"; // Your database URL
+                String dbUser = "root"; // MySQL username
+                String dbPassword = "root"; // MySQL password
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                conn = DriverManager.getConnection(url, dbUser, dbPassword);
+
+
+                // Prepare SQL query to insert contact
+                String query = "INSERT INTO telephone_directory (name, phone_number) VALUES (?, ?)";
+                stmt = conn.prepareStatement(query);
+                stmt.setString(1, name);
+                stmt.setString(2, phoneNumber);
+
+
+                // Execute query
+                int result = stmt.executeUpdate();
+                if (result > 0) {
+                    message = "Contact added successfully!";
+                } else {
+                    message = "Failed to add contact!";
+                }
+
+
+            } catch (Exception e) {
+                message = "Error: " + e.getMessage();
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (stmt != null) stmt.close();
+                    if (conn != null) conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            out.println("<p>" + message + "</p>");
+        }
+
+
+        // Delete contact functionality
+        String deleteId = request.getParameter("deleteId");
+        if (deleteId != null) {
+            Connection conn = null;
+            PreparedStatement stmt = null;
+            try {
+                String url = "jdbc:mysql://localhost:3306/user_db";
+                String dbUser = "root";
+                String dbPassword = "root";
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                conn = DriverManager.getConnection(url, dbUser, dbPassword);
+
+
+                // Delete the contact by ID
+                String deleteQuery = "DELETE FROM telephone_directory WHERE id = ?";
+                stmt = conn.prepareStatement(deleteQuery);
+                stmt.setInt(1, Integer.parseInt(deleteId));
+                int result = stmt.executeUpdate();
+                if (result > 0) {
+                    message = "Contact deleted successfully!";
+                } else {
+                    message = "Failed to delete contact!";
+                }
+
+
+            } catch (Exception e) {
+                message = "Error: " + e.getMessage();
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (stmt != null) stmt.close();
+                    if (conn != null) conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            out.println("<p>" + message + "</p>");
+        }
+
+
+        // Edit contact functionality
+        String editId = request.getParameter("editId");
+        if (editId != null) {
+            Connection conn = null;
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+            try {
+                String url = "jdbc:mysql://localhost:3306/user_db";
+                String dbUser = "root";
+                String dbPassword = "root";
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                conn = DriverManager.getConnection(url, dbUser, dbPassword);
+
+
+                // Fetch the contact details for editing
+                String selectQuery = "SELECT * FROM telephone_directory WHERE id = ?";
+                stmt = conn.prepareStatement(selectQuery);
+                stmt.setInt(1, Integer.parseInt(editId));
+                rs = stmt.executeQuery();
+
+
+                if (rs.next()) {
+                    String contactName = rs.getString("name");
+                    String contactPhoneNumber = rs.getString("phone_number");
+
+
+                    // Display the edit form with current data
+                    out.println("<h3>Edit Contact</h3>");
+                    out.println("<form action='telephone.jsp' method='post'>");
+                    out.println("Name: <input type='text' name='name' value='" + contactName + "' required><br><br>");
+                    out.println("Phone Number: <input type='text' name='phone_number' value='" + contactPhoneNumber + "' required><br><br>");
+                    out.println("<input type='hidden' name='id' value='" + editId + "'>");
+                    out.println("<input type='submit' value='Update Contact'>");
+                    out.println("</form>");
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (rs != null) rs.close();
+                    if (stmt != null) stmt.close();
+                    if (conn != null) conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+        // Update contact details after form submission
+        String updatedName = request.getParameter("name");
+        String updatedPhoneNumber = request.getParameter("phone_number");
+        String contactId = request.getParameter("id");
+
+
+        if (updatedName != null && updatedPhoneNumber != null && contactId != null) {
+            Connection conn = null;
+            PreparedStatement stmt = null;
+            try {
+                String url = "jdbc:mysql://localhost:3306/user_db";
+                String dbUser = "root";
+                String dbPassword = "root";
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                conn = DriverManager.getConnection(url, dbUser, dbPassword);
+
+
+                // Prepare SQL query to update contact
+                String updateQuery = "UPDATE telephone_directory SET name = ?, phone_number = ? WHERE id = ?";
+                stmt = conn.prepareStatement(updateQuery);
+                stmt.setString(1, updatedName);
+                stmt.setString(2, updatedPhoneNumber);
+                stmt.setInt(3, Integer.parseInt(contactId));
+
+
+                // Execute update query
+                int result = stmt.executeUpdate();
+                if (result > 0) {
+                    message = "Contact updated successfully!";
+                } else {
+                    message = "Failed to update contact!";
+                }
+
+
+            } catch (Exception e) {
+                message = "Error: " + e.getMessage();
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (stmt != null) stmt.close();
+                    if (conn != null) conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            out.println("<p>" + message + "</p>");
+        }
+
+
+        // Fetch and display the list of contacts
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            String url = "jdbc:mysql://localhost:3306/user_db";
+            String dbUser = "root";
+            String dbPassword = "root";
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(url, dbUser, dbPassword);
+
+
+            // Prepare SQL query to fetch all contacts
+            String query = "SELECT * FROM telephone_directory";
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+
+
+            // Display contacts in a table
+            out.println("<h3>Contacts List</h3>");
+            out.println("<table border='1' cellpadding='5' cellspacing='0'>");
+            out.println("<tr><th>ID</th><th>Name</th><th>Phone Number</th><th>Actions</th></tr>");
+
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String contactName = rs.getString("name");
+                String contactPhoneNumber = rs.getString("phone_number");
+
+
+                out.println("<tr>");
+                out.println("<td>" + id + "</td>");
+                out.println("<td>" + contactName + "</td>");
+                out.println("<td>" + contactPhoneNumber + "</td>");
+                out.println("<td>");
+                out.println("<a href='telephone.jsp?editId=" + id + "'>Edit</a> | ");
+                out.println("<a href='telephone.jsp?deleteId=" + id + "'>Delete</a>");
+                out.println("</td>");
+                out.println("</tr>");
+            }
+
+
+            out.println("</table>");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    %>
+</body>
+</html>
+
+
+
+
+

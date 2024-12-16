@@ -1,0 +1,83 @@
+dependency injection via constructor
+HelloApplication.java
+ package com.example.demo;
+ import org.springframework.boot.CommandLineRunner;
+ import org.springframework.boot.SpringApplication;
+ import org.springframework.boot.autoconfigure.SpringBootApplication;
+ import org.springframework.context.annotation.Bean;
+ import org.springframework.context.annotation.ComponentScan;
+ import org.springframework.stereotype.Controller;
+ import org.springframework.ui.Model;
+ import org.springframework.web.bind.annotation.GetMapping;
+ import org.springframework.web.bind.annotation.RestController;
+ @SpringBootApplication
+ @ComponentScan(basePackages = "com.example.demo")
+ public class HelloApplication {
+ 	public static void main(String[] args) {
+ 		SpringApplication.run(HelloApplication.class, args);
+ 	}
+ 	@Bean
+ public CommandLineRunner demo(Car car) {
+ 		return args-> {
+ 			// Start the Car
+ 			car.setModel("Honda");
+ Driver dr=new Driver();
+ 			dr.setName("name");
+ 			car.setDriver(dr);
+ 			car.start();
+ };
+ }
+ }
+ @RestController
+ class HelloController {
+ 	private final Car car;
+ 	public HelloController(Car car) {
+ 		this.car = car;
+ 	}
+ 	@GetMapping("/hello")
+ 	public String hello() {
+ 		car.start();
+ 		return car.getModel();
+ 	}
+ }
+ Driver.java
+ package com.example.demo;
+ import org.springframework.stereotype.Component;
+ @Component
+ public class Driver {
+ 	private String name;
+ 	public String getName() {
+ 		return name;
+ 	}
+ 	public void setName(String name) {
+ 	this.name = name;
+ }
+ }
+ Car.java
+ package com.example.demo;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.stereotype.Component;
+ @Component
+ public class Car {
+ 	private String model;
+ 	private Driver driver;
+ 	public String getModel() {
+ 		return model;
+ 	}
+ 	public void setModel(String model) {
+ 		this.model = model;
+ 	}
+ 	public Driver getDriver() {
+ 		return driver;
+ }
+ 	@Autowired
+ 	public void setDriver(Driver driver) {
+this.driver = driver;
+ 	}
+ 	public void start() {
+ 		System.out.println("Car model: " + model);
+ 		System.out.println("Driver: " + driver.getName());
+ 		System.out.println("Car is starting...");
+ 	}
+ }
+

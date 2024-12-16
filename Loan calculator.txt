@@ -1,0 +1,31 @@
+Loan calculator
+ <%@pagelanguage="java" contentType="text/html; charset=ISO-8859-1"
+ pageEncoding="ISO-8859-1"%>
+ <!DOCTYPE html>
+ <html>
+ <head>
+ <meta charset="ISO-8859-1">
+ <title>Insert title here</title>
+ </head>
+ <body>
+ <h1>simple interest calculator</h1>
+ <form>
+ Principal Amount:<input type="text" id="principal" required><br>
+ Rate of Interest:<input type="text" id="rate" required><br>
+ Time:<input type="text" id="time" required><br>
+ <input type="button" value="Calculate" onClick="calculateSimpleInterest()">
+ </form>
+ <p id ="result"></p>
+ <script>
+ function calculateSimpleInterest(){
+ var principal = parseFloat(document.getElementById("principal").value);
+ var rate = parseFloat(document.getElementById ("rate").value);
+ var time = parseFloat(document.getElementById("time").value);
+ var simpleInterest = (principal * rate * time) / 100;
+ var resultMessage ="simple Interest: " + simpleInterest;
+ var resultElement = document.getElementById("result");
+ resultElement.innerHTML = resultMessage;
+ }
+ </script>
+ </body>
+</html>

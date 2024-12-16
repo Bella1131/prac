@@ -1,0 +1,46 @@
+Throwingadvice
+Aspect1.java:
+ package com.example.demo;
+ import org.aspectj.lang.annotation.AfterThrowing;
+ import org.aspectj.lang.annotation.Aspect;
+ import org.springframework.stereotype.Component;
+ @Aspect
+ @Component
+ public class Aspect1 {
+ 	@AfterThrowing(
+ 		pointcut = "execution(* com.example.demo.Service1.service2())",
+ throwing= "exception"
+ )
+ public void afterThrowingAdvice(Exception exception) {
+ 		System.out.println("After Throwing Advice: Exception caught- "+
+ exception.getMessage());
+ 	}
+ }
+ Prac81Application.java:
+ package com.example.demo;
+ import org.springframework.boot.SpringApplication;
+ import org.springframework.boot.autoconfigure.SpringBootApplication;
+ import org.springframework.context.ConfigurableApplicationContext;
+ import com.example.demo.Service1;
+ @SpringBootApplication
+ public class Prac81Application {
+ 	public static void main(String[] args) {
+ 		ConfigurableApplicationContext
+ 		context=SpringApplication.run(Prac81Application.class, args);
+ 		Service1 mservice=context.getBean(Service1.class);
+ 		try {
+ 			mservice.service2();
+ 		}catch(Exception e) {
+ }
+ }
+ }
+Service1.java:
+ package com.example.demo;
+ import org.springframework.stereotype.Service;
+ @Service
+ public class Service1 {
+ 	public void service2() {
+ 		System.out.println("my method");
+ 		throw new RuntimeException("Simulated exception in myMethod");
+ 	}
+ }

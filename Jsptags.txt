@@ -1,0 +1,67 @@
+Jsptags
+ Header.jsp
+ <%@pagelanguage="java" contentType="text/html; charset=ISO-8859-1"
+ pageEncoding="ISO-8859-1"%>
+ <!DOCTYPE html>
+ <html>
+ <head>
+ <meta charset="ISO-8859-1">
+ <%! int pageCount=0;
+ void addcount(){pageCount++;}%>
+ <%addcount(); %>
+ <title>JSP Declaration,Scriptlet,Directive,Expression,Header and Footer Example</title>
+ </head>
+ <body>
+ <center>
+ <h2>
+ The include directive example
+ </h2>
+ <p><b>This site has been visited <%= pageCount %>.</b></p>
+ </center>
+ </body>
+ </html>
+ Footer.jsp
+ <%@pagelanguage="java" contentType="text/html; charset=ISO-8859-1"
+ pageEncoding="ISO-8859-1"%>
+ <!DOCTYPE html>
+ <html>
+ <head>
+ <meta charset="ISO-8859-1">
+ <title>Insert title here</title>
+ </head>
+ <body>
+ <center>
+ <b>your name</b><br>
+ <b>24MCA62</b>
+ </center>
+ </body>
+ </html>
+ F1.jsp
+ ADVANCEDJAVA
+ <%@pagelanguage="java" contentType="text/html; charset=ISO-8859-1"
+ pageEncoding="ISO-8859-1"%>
+ <!DOCTYPE html>
+ <html>
+ <head>
+ <meta charset="ISO-8859-1">
+ <title>JSP Declaration,Scriptlet,Directive,Expression,Header,and Footer Example</title>
+ </head>
+ <body>
+ <%@include file="header.jsp" %>
+ <center>
+ <%! int data=50; %>
+ <%="Value of the variable is: " + data %>
+ <%! double circle(int n) { return 3.14 * n * n; } %>
+ <br>
+ <%! int rectangle(int l, int b) {return l* b; } %>
+ <%="Area of rectangle is: " + rectangle(4,6) %>
+ <br>
+ <%!int perimeter(int x,int y ){
+ int peri = 2*(x + y);
+ return peri;
+ }%>
+ <%="Perimeter of rectangle: " + perimeter(5,6) %>
+ <p>Thanks for visiting my page</p>
+ </center>
+ </body>
+ </html>

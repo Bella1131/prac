@@ -1,0 +1,42 @@
+
+ CHANGE OF STUDY CENTER 
+ Center1.jsp
+ <%@pagelanguage="java" contentType="text/html; charset=ISO-8859-1"
+ pageEncoding="ISO-8859-1"%>
+ <!DOCTYPE html>
+ <html>
+ <head>
+ <meta charset="ISO-8859-1">
+ <title>CHANGE STUDY CENTER APPLICATION</title>
+ </head>
+ <body>
+ <h1>change study center application</h1>
+ <form action="Exchange.jsp" method="post">
+ <label for="studentName">Student Name:</label>
+ <input type="text" id="studentName" name="studentName" required><br><br>
+ <label for="currentCenter">Current Study Center:</label>
+ <input type="text" id="currentCenter" name="currentCenter" required><br><br>
+ <label for="newCenter">New Study Center: </label>
+ <input type="text" id="newCenter" name="newCenter" required><br><br>
+ <input type="submit" value="Submit">
+ </form>
+ </body>
+ </html>
+
+ Exchange.jsp
+ <%@pagelanguage="java" contentType="text/html; charset=ISO-8859-1"
+ pageEncoding="ISO-8859-1"%>
+ <!DOCTYPE html>
+ <html>
+ <head>
+ <meta charset="ISO-8859-1">
+ <title>Application submitted</title>
+ </head>
+ <body>
+ <h1>Application submitted</h1>
+ <p>Thank you for submitting your study center change application.</p>
+ <p>Student Name: <%= request.getParameter("studentName") %></p>
+ <p>Current Center: <%= request.getParameter("currentCenter") %></p>
+ <p>New Center: <%= request.getParameter("newCenter") %></p>
+ </body>
+ </html>
